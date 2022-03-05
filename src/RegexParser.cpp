@@ -4,7 +4,12 @@
 #include <cassert>
 #include <iostream>
 
-std::string insertExplicitConcatOperator(std::string str)
+RegexParser::RegexParser(std::string input)
+    : input{insertExplicitConcatOperator(input)}, it{this->input.begin()}
+{
+}
+
+std::string RegexParser::insertExplicitConcatOperator(std::string str)
 {
     std::stringstream output{};
     for (int i = 0; i < str.size(); i++)
@@ -25,13 +30,6 @@ std::string insertExplicitConcatOperator(std::string str)
         }
     }
     return output.str();
-}
-
-RegexParser::RegexParser(std::string input)
-    : input{input},
-    
-     it{this->input.begin()}
-{
 }
 
 std::string RegexParser::consumeToken()

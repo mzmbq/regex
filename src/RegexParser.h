@@ -4,7 +4,6 @@
 #include <string>
 #include "NFA.h"
 
-std::string insertExplicitConcatOperator(std::string);
 
 
 /*
@@ -19,6 +18,7 @@ class RegexParser
 {
 public:
     RegexParser(std::string input);
+    std::string insertExplicitConcatOperator(std::string);
 
     std::string consumeToken();
     std::string peekToken();

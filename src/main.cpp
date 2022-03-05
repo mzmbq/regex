@@ -1,14 +1,12 @@
 #include <iostream>
 #include "NFA.h"
+#include "RegexParser.h"
 
 int main(int, char**)
 {
     // std::cout << insertExplicitConcatOperator("(aa)|(abc)*");
 
-   ENFA test('a');
-   ENFA test2('b');
-   test.union_(test2);
-
+   NFA nfa = RegexParser{"a(a|b*)"}.compile();
 
 
     std::cout << std::endl;;
