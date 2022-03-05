@@ -28,15 +28,15 @@ struct hash_fn
     }
 };
 
-class ENFA
+class NFA
 {
     static State id;
 public:
-    ENFA();
-    ENFA(char symbol);
+    NFA();
+    NFA(char symbol);
 
     // copy transitions from another ENFA
-    void append(const ENFA& other);
+    void append(const NFA& other);
 
     State creteState();
 
@@ -46,8 +46,8 @@ public:
     void addTransition(State from, State to, char symbol);
     void addEpsilonTransition(State from, State to);
 
-    void concat(const ENFA& other);
-    void union_(const ENFA& other);
+    void concat(const NFA& other);
+    void union_(const NFA& other);
     void closure();
 
 private:

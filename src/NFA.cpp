@@ -1,64 +1,64 @@
 #include "NFA.h"
 #include <cassert>
 
-State ENFA::id = 0;
+State NFA::id = 0;
 
-ENFA::ENFA()
+NFA::NFA()
 {
     start = creteState();
     end = creteState();
     addEpsilonTransition(start, end);
 }
 
-ENFA::ENFA(char symbol)
+NFA::NFA(char symbol)
 {
     start = creteState();
     end = creteState();
     addTransition(start, end, symbol);
 }
 
-void ENFA::append(const ENFA& other)
+void NFA::append(const NFA& other)
 {
     transitions.insert(other.transitions.begin(), other.transitions.end());
     epsilonTransitions.insert(other.epsilonTransitions.begin(), other.epsilonTransitions.end());
 }
 
-State ENFA::creteState()
+State NFA::creteState()
 {
     return id++;    
 }
 
-State ENFA::getStart() const
+State NFA::getStart() const
 {
     return start;
 }
 
-State ENFA::getEnd() const
+State NFA::getEnd() const
 {
     return end;
 }
 
-void ENFA::addTransition(State from, State to, char symbol)
+void NFA::addTransition(State from, State to, char symbol)
 {
     Transition tmp{from, symbol};
     transitions[tmp] = to;
 }
 
-void ENFA::addEpsilonTransition(State from, State to)
+void NFA::addEpsilonTransition(State from, State to)
 {
     epsilonTransitions[from].push_back(to);
     // Thompson’s NFA allows max two epsilon transitions
     assert(epsilonTransitions[from].size() <= 2);
 }
 
-void ENFA::concat(const ENFA& other)
+void NFA::concat(const NFA& other)
 {
     addEpsilonTransition(this->end, other.start);
     this->end = other.end;
     append(other);
 }
 
-void ENFA::union_(const ENFA& other)
+void NFA::union_(const NFA& other)
 {
     State s = creteState();
     addEpsilonTransition(s, this->start);
@@ -73,7 +73,7 @@ void ENFA::union_(const ENFA& other)
     append(other);
 }
 
-void ENFA::closure()
+void NFA::closure()
 {
     State s = creteState();
     State e = creteState();
@@ -82,6 +82,9 @@ void ENFA::closure()
     addEpsilonTransition(s, this->start);
     addEpsilonTransition(this->end, e);
     addEpsilonTransition(this->end, this->start);
+
+    this->start = s;
+    this->end = e;
 }
 
 
