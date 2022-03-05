@@ -1,7 +1,10 @@
 #include "NFA.h"
 #include <cassert>
+#include <unordered_map>
 
 State NFA::id = 0;
+std::unordered_map<Transition, State, hash_fn> NFA::transitions{};
+std::unordered_map<State, std::vector<State>> NFA::epsilonTransitions{};
 
 NFA::NFA()
 {
@@ -15,12 +18,6 @@ NFA::NFA(char symbol)
     start = creteState();
     end = creteState();
     addTransition(start, end, symbol);
-}
-
-void NFA::append(const NFA& other)
-{
-    transitions.insert(other.transitions.begin(), other.transitions.end());
-    epsilonTransitions.insert(other.epsilonTransitions.begin(), other.epsilonTransitions.end());
 }
 
 State NFA::creteState()
@@ -55,7 +52,6 @@ void NFA::concat(const NFA& other)
 {
     addEpsilonTransition(this->end, other.start);
     this->end = other.end;
-    append(other);
 }
 
 void NFA::union_(const NFA& other)
@@ -70,7 +66,6 @@ void NFA::union_(const NFA& other)
 
     this->start = s;
     this->end = e;
-    append(other);
 }
 
 void NFA::closure()

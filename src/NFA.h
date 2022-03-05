@@ -30,13 +30,9 @@ struct hash_fn
 
 class NFA
 {
-    static State id;
 public:
     NFA();
     NFA(char symbol);
-
-    // copy transitions from another ENFA
-    void append(const NFA& other);
 
     State creteState();
 
@@ -53,8 +49,9 @@ public:
 private:
     State start;
     State end;
-    std::unordered_map<Transition, State, hash_fn> transitions;
-    std::unordered_map<State, std::vector<State>> epsilonTransitions;
+    static State id;
+    static std::unordered_map<Transition, State, hash_fn> transitions;
+    static std::unordered_map<State, std::vector<State>> epsilonTransitions;
 };
 
 
