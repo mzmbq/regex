@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <utility>
 #include <vector>
+#include <string>
 
 using State = unsigned int;
 struct Transition
@@ -46,6 +47,13 @@ public:
     void union_(const NFA& other);
     void closure();
 
+    // get all successor states reachable with epsilon transitions
+    std::vector<State> propagateEpsilon(State state);
+
+    // check if the word is accepted by the NFA
+    bool testWord(std::string word);
+    
+   
 private:
     State start;
     State end;
